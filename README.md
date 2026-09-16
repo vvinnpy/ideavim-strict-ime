@@ -16,8 +16,8 @@ It prevents Chinese and other non-ASCII characters from being committed while Id
 - Uses IdeaVim mode state through a small reflection bridge.
 - Intercepts AWT `InputMethodEvent` commits in strict modes.
 - Drops non-ASCII typed characters as a fallback.
-- Re-asserts English every 300 ms while a focused editor remains in a strict mode.
-- Calls `fcitx5-remote -c` with a short cooldown.
+- Re-asserts English every 200 ms while a focused editor remains in a strict mode.
+- Uses a persistent Fcitx5 D-Bus connection and keeps `fcitx5-remote -c` only as a fallback.
 - Fails open: if IdeaVim's mode cannot be queried, normal IDEA input is not blocked.
 
 ## Install manually

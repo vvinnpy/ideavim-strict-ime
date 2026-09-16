@@ -29,7 +29,7 @@ public final class StrictImeGuardService implements Disposable {
     private final Fcitx5Switcher switcher = new Fcitx5Switcher();
     private final AtomicBoolean installed = new AtomicBoolean();
     private final IdeEventQueue.EventDispatcher dispatcher = this::dispatch;
-    private final Timer watchdog = new Timer(300, event -> enforceStrictMode());
+    private final Timer watchdog = new Timer(200, event -> enforceStrictMode());
 
     public static StrictImeGuardService getInstance() {
         return ApplicationManager.getApplication().getService(StrictImeGuardService.class);
@@ -54,6 +54,10 @@ public final class StrictImeGuardService implements Disposable {
     }
 
     private void enforceStrictMode() {
+        if (!ApplicationManager.getApplication().isActive()) {
+            return;
+        }
+
         Component focusOwner = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
         if (!(focusOwner instanceof EditorComponentImpl editorComponent)) {
             return;
