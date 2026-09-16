@@ -11,9 +11,12 @@ import com.intellij.openapi.editor.impl.EditorComponentImpl;
 import com.intellij.openapi.util.SystemInfo;
 
 import java.awt.AWTEvent;
+import java.awt.Component;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.InputMethodEvent;
 import java.awt.event.KeyEvent;
 import java.util.concurrent.atomic.AtomicBoolean;
+import javax.swing.Timer;
 
 /**
  * Application-wide owner of the event and typed-action guards.
@@ -26,6 +29,7 @@ public final class StrictImeGuardService implements Disposable {
     private final Fcitx5Switcher switcher = new Fcitx5Switcher();
     private final AtomicBoolean installed = new AtomicBoolean();
     private final IdeEventQueue.EventDispatcher dispatcher = this::dispatch;
+    private final Timer watchdog = new Timer(300, event -> enforceStrictMode());
 
     public static StrictImeGuardService getInstance() {
         return ApplicationManager.getApplication().getService(StrictImeGuardService.class);
@@ -44,7 +48,21 @@ public final class StrictImeGuardService implements Disposable {
 
         IdeEventQueue.getInstance().addDispatcher(dispatcher, this);
         ensureTypedHandlerInstalled();
+        watchdog.setRepeats(true);
+        watchdog.start();
         LOG.info("IdeaVim strict IME guard installed");
+    }
+
+    private void enforceStrictMode() {
+        Component focusOwner = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
+        if (!(focusOwner instanceof EditorComponentImpl editorComponent)) {
+            return;
+        }
+
+        String modeName = modeQuery.getModeName(editorComponent.getEditor());
+        if (InputMethodPolicy.isStrictMode(modeName)) {
+            switcher.requestEnglish();
+        }
     }
 
     private void ensureTypedHandlerInstalled() {
@@ -110,6 +128,7 @@ public final class StrictImeGuardService implements Disposable {
 
     @Override
     public void dispose() {
+        watchdog.stop();
         IdeEventQueue.getInstance().removeDispatcher(dispatcher);
 
         TypedAction typedAction = TypedAction.getInstance();

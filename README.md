@@ -16,6 +16,7 @@ It prevents Chinese and other non-ASCII characters from being committed while Id
 - Uses IdeaVim mode state through a small reflection bridge.
 - Intercepts AWT `InputMethodEvent` commits in strict modes.
 - Drops non-ASCII typed characters as a fallback.
+- Re-asserts English every 300 ms while a focused editor remains in a strict mode.
 - Calls `fcitx5-remote -c` with a short cooldown.
 - Fails open: if IdeaVim's mode cannot be queried, normal IDEA input is not blocked.
 
@@ -41,7 +42,7 @@ refs through its environment protection rules.
 
 ## Release
 
-Push a tag such as `v0.1.0`. The release workflow builds the plugin ZIP,
+Push a tag such as `v0.1.1`. The release workflow builds the plugin ZIP,
 uploads it to GitHub Releases, and publishes the custom repository index to
 GitHub Pages.
 
