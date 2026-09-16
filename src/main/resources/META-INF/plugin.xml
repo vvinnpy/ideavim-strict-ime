@@ -1,0 +1,24 @@
+<idea-plugin>
+    <id>dev.local.ideavim.strictime</id>
+    <name>Vim Strict IME Guard</name>
+    <version>0.1.0</version>
+    <vendor>local</vendor>
+
+    <description><![CDATA[
+        <p>Keeps Chinese and other non-ASCII input out of IdeaVim command modes on Linux with Fcitx5.</p>
+        <p>The plugin guards <code>COMMAND</code>, <code>VISUAL</code>, <code>SELECT</code> and
+        <code>OP_PENDING</code> modes. It does not handle Insert/Replace mode, so it can work together with
+        IdeaVimExtension for input-method restoration.</p>
+    ]]></description>
+
+    <change-notes><![CDATA[
+        <p>0.1.0: Initial Linux/Fcitx5 strict IME guard implementation.</p>
+    ]]></change-notes>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>IdeaVIM</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <postStartupActivity implementation="dev.local.ideavim.strictime.StrictImeStartupActivity"/>
+    </extensions>
+</idea-plugin>
