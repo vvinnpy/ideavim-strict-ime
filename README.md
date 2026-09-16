@@ -35,7 +35,9 @@ After the repository's GitHub Pages site is enabled, add this URL to
 https://<OWNER>.github.io/<REPOSITORY>/updatePlugins.xml
 ```
 
-GitHub Actions publishes a new `updatePlugins.xml` for every `v*` tag.
+GitHub Actions publishes `updatePlugins.xml` from the default branch after a
+successful `Release` workflow, so GitHub Pages does not need to allow tag
+refs through its environment protection rules.
 
 ## Release
 
