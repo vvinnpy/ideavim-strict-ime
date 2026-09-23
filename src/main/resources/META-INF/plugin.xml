@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>dev.local.ideavim.strictime</id>
     <name>Vim Strict IME Guard</name>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
     <vendor>local</vendor>
 
     <description><![CDATA[
@@ -12,6 +12,7 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <p>0.1.2: Leave IntelliJ terminal editors unmanaged so terminal applications such as tig keep their own input-method state.</p>
         <p>0.1.1: Re-assert English while IdeaVim stays in a strict mode.</p>
         <p>0.1.0: Initial Linux/Fcitx5 strict IME guard implementation.</p>
     ]]></change-notes>

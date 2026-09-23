@@ -64,7 +64,7 @@ public final class StrictImeGuardService implements Disposable {
         }
 
         String modeName = modeQuery.getModeName(editorComponent.getEditor());
-        if (InputMethodPolicy.isStrictMode(modeName)) {
+        if (EditorTargetPolicy.shouldGuard(editorComponent.getEditor(), modeName)) {
             switcher.requestEnglish();
         }
     }
@@ -97,7 +97,8 @@ public final class StrictImeGuardService implements Disposable {
         }
 
         String modeName = modeQuery.getModeName(editorComponent.getEditor());
-        if (!InputMethodPolicy.shouldBlockInputMethodEvent(event, modeName)) {
+        if (!EditorTargetPolicy.shouldGuard(editorComponent.getEditor(), modeName)
+                || !InputMethodPolicy.shouldBlockInputMethodEvent(event, modeName)) {
             return false;
         }
 
@@ -112,7 +113,7 @@ public final class StrictImeGuardService implements Disposable {
         }
 
         String modeName = modeQuery.getModeName(editorComponent.getEditor());
-        if (!InputMethodPolicy.isStrictMode(modeName)) {
+        if (!EditorTargetPolicy.shouldGuard(editorComponent.getEditor(), modeName)) {
             return false;
         }
 

@@ -51,4 +51,21 @@ class InputMethodPolicyTest {
         );
         assertTrue(InputMethodPolicy.isImeSwitchRelease(event));
     }
+
+    @Test
+    void terminalEditorsAreNeverStrict() {
+        assertFalse(EditorTargetPolicy.shouldGuard(true, "COMMAND"));
+        assertTrue(EditorTargetPolicy.shouldGuard(false, "COMMAND"));
+        assertFalse(EditorTargetPolicy.shouldGuard(false, "INSERT"));
+    }
+
+    @Test
+    void detectsTerminalClassNames() {
+        assertTrue(EditorTargetPolicy.isTerminalClassName(
+                "com.intellij.terminal.frontend.view.impl.TerminalViewImpl$TerminalPanel"));
+        assertTrue(EditorTargetPolicy.isTerminalClassName(
+                "org.jetbrains.plugins.terminal.block.TerminalWidgetImpl"));
+        assertFalse(EditorTargetPolicy.isTerminalClassName(
+                "com.intellij.openapi.editor.impl.EditorComponentImpl"));
+    }
 }

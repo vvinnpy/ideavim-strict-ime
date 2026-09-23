@@ -48,7 +48,7 @@ final class GuardTypedActionHandler implements TypedActionHandlerEx {
         }
 
         String modeName = modeQuery.getModeName(editor);
-        if (!InputMethodPolicy.isStrictMode(modeName)) {
+        if (!EditorTargetPolicy.shouldGuard(editor, modeName)) {
             return false;
         }
 
